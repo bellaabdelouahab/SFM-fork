@@ -17,30 +17,29 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 INSTALLED_APPS = [
     # Default Django apps
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     # Third-party apps
-    'djongo',  # MongoDB connector
-    'rest_framework',
-    'corsheaders',
-    'drf_yasg',  # API documentation
-    'django_celery_beat',
+    "djongo",  # MongoDB connector
+    "rest_framework",
+    "corsheaders",
+    "drf_yasg",  # API documentation
+    "django_celery_beat",
     # 'django_celery_results',  # Removed as we're using Redis directly
-    'allauth',
-    'allauth.account',
-    'modeltranslation',  # For translations
-    
+    "allauth",
+    "allauth.account",
+    "apps.pages",
+    "modeltranslation",  # For translations
     # Local apps
-    'apps.accounts',
-    'apps.providers',
-    'apps.solutions',
-    'apps.payments',
-    'apps.core',
+    "apps.accounts",
+    "apps.providers",
+    "apps.solutions",
+    "apps.payments",
+    "apps.core",
 ]
 
 MIDDLEWARE = [
@@ -191,3 +190,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',    # Needed to login by username in Django admin, regardless of allauth
     'allauth.account.auth_backends.AuthenticationBackend',    # `allauth` specific authentication methods, such as login by e-mail
 ]
+
+
+# Contact form settings
+DEFAULT_FROM_EMAIL = "noreply@moroccan-solutions.com"
+CONTACT_EMAIL = "contact@moroccan-solutions.com"
