@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Check - Moroccan Solutions Finder</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #e63946;
+        }
+        .service {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .service.error {
+            background-color: #ffecec;
+            border-left: 5px solid #e63946;
+        }
+        .service.success {
+            background-color: #ecffe7;
+            border-left: 5px solid #2a9d8f;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .guidance {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Service Check Results</h1>
+    
+    <div class="service {% if mongodb.available %}success{% else %}error{% endif %}">
+        <h2>MongoDB</h2>
+        {% if mongodb.available %}
+            <p>✅ MongoDB is running properly.</p>
+        {% else %}
+            <p>❌ MongoDB is not available</p>
+            <p>Error: {{ mongodb.error }}</p>
+            
+            <div class="guidance">
+                <h3>How to fix:</h3>
+                <p>{{ mongodb.guidance|linebreaks }}</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="service {% if redis.available %}success{% else %}error{% endif %}">
+        <h2>Redis</h2>
+        {% if redis.available %}
+            <p>✅ Redis is running properly.</p>
+        {% else %}
+            <p>❌ Redis is not available</p>
+            <p>Error: {{ redis.error }}</p>
+            
+            <div class="guidance">
+                <h3>How to fix:</h3>
+                <p>{{ redis.guidance|linebreaks }}</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <p>
+        <a href="/admin/">Return to admin</a> | 
+        <a href="/">Go to homepage</a>
+    </p>
+</body>
+</html>
