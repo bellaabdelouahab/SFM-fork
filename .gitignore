@@ -1,1 +1,5 @@
 .venv/
+create_project.bat
+**/__pycache__/
+*.py[cod]
+*$py.class

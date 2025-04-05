@@ -1,0 +1,88 @@
+version: '3.8' 
+ 
+services: 
+  web: 
+    build: 
+      context: . 
+      dockerfile: deployment/docker/Dockerfile 
+    restart: always 
+    volumes: 
+      - .:/app 
+      - static_volume:/app/static 
+      - media_volume:/app/media 
+    env_file: 
+      - .env 
+    depends_on: 
+      - mongodb 
+      - redis 
+    networks: 
+      - app-network 
+ 
+  celery: 
+    build: 
+      context: . 
+      dockerfile: deployment/docker/Dockerfile.celery 
+    command: celery -A config worker -l info 
+    volumes: 
+      - .:/app 
+    env_file: 
+      - .env 
+    depends_on: 
+      - web 
+      - redis 
+    networks: 
+      - app-network 
+ 
+  celery-beat: 
+    build: 
+      context: . 
+      dockerfile: deployment/docker/Dockerfile.celery 
+    command: celery -A config beat -l info 
+    volumes: 
+      - .:/app 
+    env_file: 
+      - .env 
+    depends_on: 
+      - celery 
+    networks: 
+      - app-network 
+ 
+  mongodb: 
+    image: mongo:latest 
+    volumes: 
+      - mongodb_data:/data/db 
+    env_file: 
+      - .env 
+    ports: 
+      - "27017:27017" 
+    networks: 
+      - app-network 
+ 
+  redis: 
+    image: redis:alpine 
+    volumes: 
+      - redis_data:/data 
+    networks: 
+      - app-network 
+ 
+  nginx: 
+    build: 
+      context: ./deployment/docker/nginx 
+    volumes: 
+      - static_volume:/app/static 
+      - media_volume:/app/media 
+    ports: 
+      - "80:80" 
+    depends_on: 
+      - web 
+    networks: 
+      - app-network 
+ 
+networks: 
+  app-network: 
+ 
+volumes: 
+  mongodb_data: 
+  redis_data: 
+  static_volume: 
+  media_volume: 
