@@ -5,8 +5,8 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     """Extended User model"""
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    is_provider = models.BooleanField(default=False)
-    is_verified = models.BooleanField(default=False)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    # @TODO: Add any other custom fields you need
 
     # Fix the clashing fields by adding related_name attributes
     groups = models.ManyToManyField(

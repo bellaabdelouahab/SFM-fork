@@ -4,8 +4,9 @@ import hashlib
 from functools import wraps
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.conf import settings
 from django.utils.text import slugify
+import redis
+from django.conf import settings
 
 
 def get_client_ip(request):
@@ -68,23 +69,36 @@ def generate_file_path(instance, filename, path='uploads'):
 
 def timed_cache(timeout=300):
     """
-    Simple timed cache decorator for functions
+    Timed cache decorator using Redis for storage
     """
-    cache = {}
+    
+    # Get Redis connection from Django settings or use default
+    redis_instance = redis.Redis(
+        host=getattr(settings, 'REDIS_HOST', 'localhost'),
+        port=getattr(settings, 'REDIS_PORT', 6379),
+        db=getattr(settings, 'REDIS_DB', 0),
+        password=getattr(settings, 'REDIS_PASSWORD', None)
+    )
     
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            key = str(args) + str(kwargs)
+            # Generate a unique key based on function name and arguments
+            key = f"cache:{func.__module__}:{func.__name__}:{str(args)}:{str(kwargs)}"
             key_hash = hashlib.md5(key.encode()).hexdigest()
             
-            if key_hash in cache:
-                result, timestamp = cache[key_hash]
-                if timestamp + timeout > timezone.now().timestamp():
-                    return result
+            # Try to get from Redis cache
+            cached = redis_instance.get(key_hash)
+            if cached:
+                return eval(cached.decode())  # Convert from bytes to Python object
             
+            # Call the function and store result in Redis
             result = func(*args, **kwargs)
-            cache[key_hash] = (result, timezone.now().timestamp())
+            redis_instance.setex(
+                key_hash, 
+                timeout,  # Redis takes seconds directly
+                str(result)  # Simple serialization
+            )
             return result
         
         return wrapper

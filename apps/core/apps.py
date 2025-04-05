@@ -10,5 +10,5 @@ class CoreConfig(AppConfig):
         """
         Perform initialization tasks when Django starts.
         """
-        # Import any signals here
-        pass
+        # Import the checks module to register system checks
+        from . import checks  # noqa

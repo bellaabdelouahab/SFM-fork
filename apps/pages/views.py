@@ -1,19 +1,12 @@
 from django.views.generic import TemplateView, FormView
 from django.urls import reverse_lazy
 from .forms import ContactForm
-from apps.solutions.models import Solution  # Import the Solution model
 
 class HomeView(TemplateView):
     template_name = 'pages/home.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add any data needed for the homepage
-        try:
-            context['featured_solutions'] = Solution.objects.filter(is_featured=True)[:4]
-        except:
-            # Handle case when Solution model doesn't exist yet or migrations haven't been run
-            context['featured_solutions'] = []
         return context
 
 class AboutView(TemplateView):

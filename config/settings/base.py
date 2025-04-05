@@ -24,21 +24,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party apps
-    "djongo",  # MongoDB connector
+    "djongo",
     "rest_framework",
     "corsheaders",
     "drf_yasg",  # API documentation
     "django_celery_beat",
-    # 'django_celery_results',  # Removed as we're using Redis directly
     "allauth",
     "allauth.account",
     "apps.pages",
     "modeltranslation",  # For translations
     # Local apps
     "apps.accounts",
-    "apps.providers",
-    "apps.solutions",
-    "apps.payments",
     "apps.core",
 ]
 
@@ -115,8 +111,6 @@ LANGUAGES = (
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
-MODELTRANSLATION_LANGUAGES = ('en', 'fr', 'ar')
-MODELTRANSLATION_LANGUAGES = ('en', 'fr', 'ar')
 # Static files (CSS, JavaScript, Images)
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_LANGUAGES = ('en', 'fr', 'ar')

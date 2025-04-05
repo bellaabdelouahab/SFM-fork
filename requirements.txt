@@ -18,7 +18,6 @@ django-modeltranslation==0.18.11
 # Task queue
 celery==5.3.6
 django-celery-beat==2.5.0
-django-celery-results==2.5.1
 redis==5.0.1
 django-redis==5.4.0  # For Redis cache integration
 
