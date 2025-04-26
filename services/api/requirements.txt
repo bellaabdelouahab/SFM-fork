@@ -1,0 +1,53 @@
+# Core Django Framework
+Django==5.2
+
+# Django Extensions and Add-ons
+django-allauth==65.7.0
+django-cors-headers==4.3.1
+django-modeltranslation==0.19.13
+django-redis==5.4.0
+djangorestframework==3.14.0
+
+# API Documentation
+drf-yasg==1.21.10
+
+# Utility Libraries
+asgiref==3.8.1
+async-timeout==5.0.1
+certifi==2025.1.31
+colorama==0.4.6
+colorlog==6.9.0
+dotenv==0.9.9
+python-dotenv==1.1.0
+python-json-logger==3.3.0
+structlog==25.2.0
+typing_extensions==4.13.2
+packaging==24.2
+
+# Database and ORM
+psycopg2-binary==2.9.9
+sqlparse==0.5.3
+
+# Caching and Queues
+redis==5.2.1
+
+# Time and Date Utilities
+pytz==2025.2
+tzdata==2025.2
+
+# Image Processing
+pillow==11.1.0
+
+# Networking and HTTP
+urllib3==2.4.0
+uritemplate==4.1.1
+dnspython==2.7.0
+
+# YAML Parsing
+PyYAML==6.0.2
+
+# Monitoring and Error Tracking
+sentry-sdk==2.25.1
+
+# Inflection Utilities
+inflection==0.5.1

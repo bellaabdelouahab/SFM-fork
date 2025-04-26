@@ -5,3 +5,12 @@ create_project.bat
 *$py.class
 
 logs/
+
+# Environment files
+.env
+.env.prod
+
+# Keep example env file
+!.env.example
+
+services/client
