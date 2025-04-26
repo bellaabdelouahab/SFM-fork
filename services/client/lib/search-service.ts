@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/nextjs"
 
 export async function searchService(query: string): Promise<any> {
   try {
@@ -17,15 +16,6 @@ export async function searchService(query: string): Promise<any> {
       timestamp: new Date().toISOString(),
     }
   } catch (error) {
-    // Log error to Sentry
-    Sentry.captureException(error, {
-      tags: {
-        feature: "search",
-      },
-      extra: {
-        query,
-      },
-    })
 
     // Re-throw for component handling
     throw error

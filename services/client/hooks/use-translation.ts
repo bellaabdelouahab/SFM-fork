@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslationContext } from "@/contexts/translation-context"
 
 export function useTranslation() {

@@ -24,5 +24,4 @@ jest.mock("next/image", () => ({
 }))
 
 // Mock environment variables
-process.env.NEXT_PUBLIC_SENTRY_DSN = "https://example@sentry.io/123"
 process.env.NEXT_PUBLIC_ANALYTICS_ENABLED = "false"

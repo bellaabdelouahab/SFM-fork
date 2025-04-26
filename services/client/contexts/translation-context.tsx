@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-
 import { createContext, useContext, useState, useEffect } from "react"
 import { translations } from "@/lib/translations"
+import { useParams, usePathname, useRouter } from "next/navigation" // Import hooks
 
 type Language = "ar" | "en" | "fr"
 
@@ -16,7 +16,20 @@ interface TranslationContextType {
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined)
 
 export function TranslationProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>("ar")
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useParams()
+  const initialLocale = params.locale as Language || "ar" // Get locale from URL params
+
+  const [language, setLanguage] = useState<Language>(initialLocale)
+
+  useEffect(() => {
+    // Update language state if URL locale changes
+    const currentPathLocale = pathname.split('/')[1] as Language
+    if (currentPathLocale && ["ar", "en", "fr"].includes(currentPathLocale) && currentPathLocale !== language) {
+      setLanguage(currentPathLocale)
+    }
+  }, [pathname, language])
 
   useEffect(() => {
     // Set HTML dir and lang attributes based on language
@@ -24,24 +37,20 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
     htmlElement.lang = language
     htmlElement.dir = language === "ar" ? "rtl" : "ltr"
 
-    // Store language preference
-    localStorage.setItem("language", language)
+    // Store language preference (optional, URL is primary source now)
+    // localStorage.setItem("language", language)
   }, [language])
-
-  useEffect(() => {
-    // Load saved language preference
-    const savedLanguage = localStorage.getItem("language") as Language | null
-    if (savedLanguage && ["ar", "en", "fr"].includes(savedLanguage)) {
-      setLanguage(savedLanguage)
-    }
-  }, [])
 
   const t = (key: string): string => {
     return translations[language]?.[key] || translations.ar[key] || key
   }
 
   const changeLanguage = (lang: Language) => {
-    setLanguage(lang)
+    if (lang !== language) {
+      const newPathname = pathname.replace(`/${language}`, `/${lang}`)
+      setLanguage(lang) // Update state immediately for UI responsiveness
+      router.push(newPathname) // Navigate to the new locale path
+    }
   }
 
   return (

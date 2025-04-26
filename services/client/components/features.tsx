@@ -1,3 +1,5 @@
+"use client";
+
 import { User, Handshake, LightbulbIcon } from "lucide-react"
 import { useTranslation } from "@/hooks/use-translation"
 

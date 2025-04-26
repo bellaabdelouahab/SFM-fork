@@ -1,21 +1,28 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+const PUBLIC_FILE = /\.(.*)$/;
+const SUPPORTED_LOCALES = ["ar", "en", "fr"];
+const DEFAULT_LOCALE = "ar";
 
 export function middleware(request: NextRequest) {
-  const response = NextResponse.next()
+  const pathname = request.nextUrl.pathname;
 
-  // Add security headers
-  response.headers.set("X-Content-Type-Options", "nosniff")
-  response.headers.set("X-Frame-Options", "DENY")
-  response.headers.set("X-XSS-Protection", "1; mode=block")
-  response.headers.set(
-    "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://flagcdn.com https://images.unsplash.com;",
-  )
+  // Skip public files and API routes
+  if (PUBLIC_FILE.test(pathname) || pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
 
-  return response
-}
+  // Check if the pathname already includes a locale
+  const pathnameParts = pathname.split("/");
+  const locale = pathnameParts[1];
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  if (SUPPORTED_LOCALES.includes(locale)) {
+    return NextResponse.next();
+  }
+
+  // Redirect to the default locale if no locale is present
+  const url = request.nextUrl.clone();
+  url.pathname = `/${DEFAULT_LOCALE}${pathname}`;
+  return NextResponse.redirect(url);
 }

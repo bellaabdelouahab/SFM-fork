@@ -55,10 +55,10 @@ export function Header() {
         <nav className="hidden md:block">
           <ul className="flex space-x-8 space-x-reverse">
             {[
-              { name: t("services"), href: "/services" },
-              { name: t("experiences"), href: "/experiences" },
-              { name: t("businesses"), href: "/businesses" },
-              { name: t("about"), href: "/about" },
+              { name: t("services"), href: `/${currentLanguage}/services` },
+              { name: t("experiences"), href: `/${currentLanguage}/experiences` },
+              { name: t("businesses"), href: `/${currentLanguage}/businesses` },
+              { name: t("about"), href: `/${currentLanguage}/about` },
             ].map((item) => (
               <li key={item.href}>
                 <Link
@@ -76,6 +76,14 @@ export function Header() {
 
         <div className="flex items-center space-x-4 space-x-reverse">
           <div className="flex space-x-2 space-x-reverse">
+            <button
+              onClick={() => changeLanguage("ar")}
+              className={`rounded-full overflow-hidden w-8 h-8 transition-all ${
+                currentLanguage === "ar" ? "ring-2 ring-secondary" : ""
+              }`}
+            >
+              <Image src="https://flagcdn.com/w40/ma.png" alt="العربية" width={32} height={32} />
+            </button>
             <button
               onClick={() => changeLanguage("en")}
               className={`rounded-full overflow-hidden w-8 h-8 transition-all ${
@@ -110,10 +118,10 @@ export function Header() {
           <nav className="container-custom py-4">
             <ul className="flex flex-col space-y-4">
               {[
-                { name: t("services"), href: "/services" },
-                { name: t("experiences"), href: "/experiences" },
-                { name: t("businesses"), href: "/businesses" },
-                { name: t("about"), href: "/about" },
+                { name: t("services"), href: `/${currentLanguage}/services` },
+                { name: t("experiences"), href: `/${currentLanguage}/experiences` },
+                { name: t("businesses"), href: `/${currentLanguage}/businesses` },
+                { name: t("about"), href: `/${currentLanguage}/about` },
               ].map((item) => (
                 <li key={item.href}>
                   <Link

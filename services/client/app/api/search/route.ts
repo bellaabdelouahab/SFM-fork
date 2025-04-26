@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from "next/server"
-import * as Sentry from "@sentry/nextjs"
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,12 +23,6 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    // Log error to Sentry
-    Sentry.captureException(error, {
-      tags: {
-        api: "search",
-      },
-    })
 
     return NextResponse.json({ error: "An error occurred while processing your request" }, { status: 500 })
   }

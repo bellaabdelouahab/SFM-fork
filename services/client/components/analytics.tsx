@@ -2,7 +2,6 @@
 
 import { useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
-import * as Sentry from "@sentry/nextjs"
 
 export function Analytics() {
   const pathname = usePathname()
@@ -17,12 +16,6 @@ export function Analytics() {
       console.log(`Page view: ${url}`)
     }
 
-    // Set Sentry breadcrumb for navigation
-    Sentry.addBreadcrumb({
-      category: "navigation",
-      message: `Navigation to ${url}`,
-      level: "info",
-    })
   }, [pathname, searchParams])
 
   return null
