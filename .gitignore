@@ -12,5 +12,3 @@ logs/
 
 # Keep example env file
 !.env.example
-
-services/client
